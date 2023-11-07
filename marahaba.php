@@ -17,23 +17,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 1600px; 
+            min-height: 100vh;
         }
 
         .menu {
-            width: 40%;
-            height: 40%;
-            overflow: visible;
+            overflow: hidden;
             position: relative;
+            max-width: 35%;
+            max-height: 35%;
         }
 
         .menu img {
-            width: 100%; /* Change to 100% to cover the entire container */
-            height: 100%; /* Change to 100% to cover the entire container */
-            position: absolute;
-            top: 0;
-            left: 0;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
             display: none;
         }
 
@@ -50,7 +47,14 @@
             font-size: 16px;
             position: absolute;
             bottom: 20px;
+        }
+
+        #nextButton {
             right: 20px;
+        }
+
+        #prevButton {
+            left: 20px;
         }
     </style>
 </head>
@@ -60,6 +64,7 @@
         <div class="menu">
             <img src="./menu/marahaba_menu_1.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_2.jpg" alt="marahaba menu">
+            <img src="./menu/marahaba_menu_2.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_3.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_4.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_5.jpg" alt="marahaba menu">
@@ -68,22 +73,36 @@
             <img src="./menu/marahaba_menu_8.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_9.jpg" alt="marahaba menu">
             <img src="./menu/marahaba_menu_10.jpg" alt="marahaba menu">
-            <button>Next Image</button>
+            <!-- Add more image elements here for all 14 images -->
+            <button id="prevButton">Previous Image</button>
+            <button id="nextButton">Next Image</button>
         </div>
     </div>
     <script>
         let index = 0;
         let images = document.querySelectorAll('.menu img');
-        let button = document.querySelector('button');
+        let nextButton = document.getElementById('nextButton');
+        let prevButton = document.getElementById('prevButton');
 
-        button.addEventListener('click', () => {
+        function showImage(imageIndex) {
             images[index].style.display = 'none';
-            index++;
-            if (index >= images.length) {
-                index = 0;
-            }
+            index = imageIndex;
             images[index].style.display = 'block';
-        });
+        }
+
+        function nextImage() {
+            showImage((index + 1) % images.length);
+        }
+
+        function prevImage() {
+            showImage(index > 0 ? index - 1 : images.length - 1);
+        }
+
+        nextButton.addEventListener('click', nextImage);
+        prevButton.addEventListener('click', prevImage);
+
+        // Automatically switch to the next image every 5 seconds
+        setInterval(nextImage, 1500);
     </script>
 </body>
 </html>
